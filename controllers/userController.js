@@ -16,7 +16,7 @@ const register = async (req,res) => {
         }
         
 
-        const hash = bcrypt.hashSync(req.body.password, saltRounds);
+        const hash = await bcrypt.hash(req.body.password, saltRounds);
 
         const user = new User({
             username: req.body.username,
@@ -52,7 +52,10 @@ const signin = async (req,res) => {
             return res.status(422).json({error: " user not found."});
         }
 
-        const passwordMatch = bcrypt.compareSync(password, user.password);
+        console.log(user)
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        console.log("Password match:", passwordMatch);
 
        
 
